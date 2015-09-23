@@ -33,45 +33,6 @@ class enrol_newenrol_plugin extends enrol_plugin {
     protected $lasternollerinstanceid = 0;
 
     /**
-     * Returns optional enrolment information icons.
-     *
-     * This is used in course list for quick overview of enrolment options.
-     *
-     * We are not using single instance parameter because sometimes
-     * we might want to prevent icon repetition when multiple instances
-     * of one type exist. One instance may also produce several icons.
-     *
-     * @param array $instances all enrol instances of this type in one course
-     * @return array of pix_icon
-     */
-    public function get_info_icons(array $instances) {
-        $key = false;
-        $nokey = false;
-        foreach ($instances as $instance) {
-            if ($this->can_newenrol_enrol($instance, false) !== true) {
-                // User can not enrol himnewenrol.
-                // Note that we do not check here if user is already enrolled for performance reasons -
-                // such check would execute extra queries for each course in the list of courses and
-                // would hide newenrol-enrolment icons from guests.
-                continue;
-            }
-            if ($instance->password or $instance->customint1) {
-                $key = true;
-            } else {
-                $nokey = true;
-            }
-        }
-        $icons = array();
-        if ($nokey) {
-            $icons[] = new pix_icon('withoutkey', get_string('pluginname', 'enrol_newenrol'), 'enrol_newenrol');
-        }
-        if ($key) {
-            $icons[] = new pix_icon('withkey', get_string('pluginname', 'enrol_newenrol'), 'enrol_newenrol');
-        }
-        return $icons;
-    }
-
-    /**
      * Returns localised name of enrol instance
      *
      * @param stdClass $instance (null is accepted too)
